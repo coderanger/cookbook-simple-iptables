@@ -12,7 +12,7 @@ action :append do
     node.set["simple_iptables"]["chains"][new_resource.table] = node["simple_iptables"]["chains"][new_resource.table].dup << new_resource.chain unless ["PREROUTING", "INPUT", "FORWARD", "OUTPUT", "POSTROUTING"].include?(new_resource.chain)
     unless new_resource.chain == new_resource.direction || new_resource.direction == :none
       puts '!'*100
-      puts node.set["simple_iptables"]["rules"][new_resource.table].inspect
+      puts node.set["simple_iptables"]["rules"][new_resource.table].inspect, new_resource.table.inspect, node.set["simple_iptables"]["rules"].inspect
       node.set["simple_iptables"]["rules"][new_resource.table] << {:rule => "-A #{new_resource.direction} #{new_resource.chain_condition} --jump #{new_resource.chain}", :weight => new_resource.weight}
     end
   end
